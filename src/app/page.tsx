@@ -1,8 +1,7 @@
-import Link from "next/link";
-import { db } from "~/server/db";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import UploadButton from "./_components/uploadButton";
 import { getImages } from "~/server/queries";
+import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
@@ -15,10 +14,16 @@ async function Images() {
         <div className="text-center text-xl font-semibold">No images yet</div>
       ) : (
         images.map((image) => (
-          <>
-            <img src={image.url} alt={image.name} />
+          <div className="flex h-48 w-48 flex-col" key={image.id}>
+            <Image
+              src={image.url}
+              alt={image.name}
+              width={480}
+              height={480}
+              style={{ objectFit: "contain" }}
+            />
             <p className="text-sm">{image.name}</p>
-          </>
+          </div>
         ))
       )}
     </div>
