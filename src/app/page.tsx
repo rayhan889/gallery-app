@@ -1,28 +1,42 @@
 import Link from "next/link";
 import { db } from "~/server/db";
-import { SignedIn } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import UploadButton from "./_components/uploadButton";
+import { getImages } from "~/server/queries";
 
 export const dynamic = "force-dynamic";
 
-export default async function HomePage() {
-  const images = await db.query.images.findMany({
-    orderBy: (model, { desc }) => desc(model.id),
-  });
+async function Images() {
+  const images = await getImages();
 
   return (
+    <div className="mt-4 flex flex-wrap justify-center gap-4">
+      {images.length == 0 ? (
+        <div className="text-center text-xl font-semibold">No images yet</div>
+      ) : (
+        images.map((image) => (
+          <>
+            <img src={image.url} alt={image.name} />
+            <p className="text-sm">{image.name}</p>
+          </>
+        ))
+      )}
+    </div>
+  );
+}
+
+export default async function HomePage() {
+  return (
     <main>
-      <div className="flex flex-wrap gap-4">
-        <SignedIn>
-          <UploadButton />
-        </SignedIn>
-        {images.map((image) => (
-          <div key={image.id} className="w-48">
-            <img src={image.url} />
-            <div>{image.name}</div>
-          </div>
-        ))}
-      </div>
+      <SignedIn>
+        <UploadButton />
+        <Images />
+      </SignedIn>
+      <SignedOut>
+        <div className="text-center text-xl font-semibold">
+          Please sign in to view images
+        </div>
+      </SignedOut>
     </main>
   );
 }
