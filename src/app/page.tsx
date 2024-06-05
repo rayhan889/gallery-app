@@ -14,7 +14,7 @@ async function Images() {
       {images.length == 0 ? (
         <div className="text-center text-xl font-semibold">No images yet</div>
       ) : (
-        [...images, ...images, ...images, ...images].map((image) => (
+        images.map((image) => (
           <div className="mb-8 flex h-48 w-48 flex-col" key={image.id}>
             <Link href={`/img/${image.id}`}>
               <Image
