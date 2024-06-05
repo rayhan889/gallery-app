@@ -7,6 +7,7 @@ import TopNav from "./_components/topnav";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
+import { Toaster } from "~/components/ui/sonner";
 
 export const metadata = {
   title: "Create T3 App",
@@ -29,6 +30,7 @@ export default function RootLayout({
           <div className="grid-rows-[auto, 1fr] grid h-screen ">
             <TopNav />
             <main className="overflow-y-scroll">{children}</main>
+            <Toaster position="top-center" />
           </div>
           {modal}
           <div id="modal-root" />
