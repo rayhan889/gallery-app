@@ -3,6 +3,7 @@ import UploadButton from "./_components/uploadButton";
 import { getImages } from "~/server/queries";
 import Image from "next/image";
 import Link from "next/link";
+import { SimpleUploadButton } from "./_components/simple-upload-button";
 
 export const dynamic = "force-dynamic";
 
@@ -35,9 +36,11 @@ async function Images() {
 
 export default async function HomePage() {
   return (
-    <main>
+    <main className="mt-4">
       <SignedIn>
-        <UploadButton />
+        <div className="flex w-full justify-center">
+          <SimpleUploadButton />
+        </div>
         <Images />
       </SignedIn>
       <SignedOut>
