@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useUploadThing } from "~/utils/uploadthing";
 
 // inferred input off useUploadThing
@@ -48,7 +49,12 @@ function UploadIconSVG() {
 }
 
 export function SimpleUploadButton() {
-  const { inputProps } = useUploadThingInputProps("imageUploader");
+  const router = useRouter();
+  const { inputProps } = useUploadThingInputProps("imageUploader", {
+    onClientUploadComplete() {
+      router.refresh();
+    },
+  });
 
   return (
     <div className="rounded-md bg-blue-600 px-4 py-2">
